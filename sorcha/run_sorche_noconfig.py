@@ -7,11 +7,12 @@ from sorcha.utilities.sorchaConfigs import (inputConfigs, simulationConfigs,
                                             fadingfunctionConfigs, linkingfilterConfigs,
                                             outputConfigs, lightcurveConfigs, activityConfigs,
                                             expertConfigs, auxiliaryConfigs)
+from sorcha.utilities.sorchaArguments import sorchaArguments
 
 
 class sorchaConfigs_nofile(sorchaConfigs):
-    """Revert to a regular data class so not forced to
-    read a file
+    """Revert to a regular dataclass so not forced to
+    read a configuration file
     """
     def __init__(self, **kwargs):
         # attach the logger object so we can print things to the Sorcha logs
@@ -22,6 +23,11 @@ class sorchaConfigs_nofile(sorchaConfigs):
 
 
 if __name__ == "__main__":
+
+    pointing_database = "baseline_v2.0_1yr.db"
+    orbin_file = "sspp_testset_orbits.des"
+    params = "sspp_testset_colours.txt"
+    stats_out_file = "nofile_test_stats"
 
     query = ("SELECT observationId, observationStartMJD as observationStartMJD_TAI, "
              "visitTime, visitExposureTime, filter, seeingFwhmGeom as seeingFwhmGeom_arcsec, "
@@ -34,7 +40,7 @@ if __name__ == "__main__":
     observing_filters = "r,g,i,z,u,y"
 
     input_config = inputConfigs(ephemerides_type=ephemerides_type,
-                                eph_format="hdf5",
+                                eph_format="csv",
                                 size_serial_chunk=5000,
                                 aux_format="whitespace",
                                 pointing_sql_query=query)
@@ -53,7 +59,7 @@ if __name__ == "__main__":
                                     othercolours=None)
 
     saturation_config = saturationConfigs(bright_limit_on=True,
-                                          bright_limit="16.0", # xxx--need to clean that up
+                                          bright_limit=16.0,
                                           _observing_filters=observing_filters)
 
     phasecurves_config = phasecurvesConfigs(phase_function="HG")
@@ -78,7 +84,7 @@ if __name__ == "__main__":
                                           ssp_number_tracklets=3,
                                           ssp_track_window=15,
                                           ssp_night_start_utc=16.0)
-    output_confg = outputConfigs(output_format="hdf5",
+    output_confg = outputConfigs(output_format="csv",
                                  output_columns="basic",
                                  position_decimals=None,
                                  magnitude_decimals=None)
@@ -96,19 +102,35 @@ if __name__ == "__main__":
                                   simulation=simulation_config,
                                   filters=filters_config,
                                   saturation=saturation_config,
-                           phasecurves=phasecurves_config,
-                           fov=fov_config,
-                           fadingfunction=fading_config,
-                           linkingfilter=linking_config,
-                           output=output_confg,
-                           lightcurve=lightcurve_config,
-                           activity=activity_config,
-                           expert=expert_config,
-                           auxiliary=aux_config,
-                           )
+                                  phasecurves=phasecurves_config,
+                                  fov=fov_config,
+                                  fadingfunction=fading_config,
+                                  linkingfilter=linking_config,
+                                  output=output_confg,
+                                  lightcurve=lightcurve_config,
+                                  activity=activity_config,
+                                  expert=expert_config,
+                                  auxiliary=aux_config,
+                                  )
 
+    sorcha_args = sorchaArguments(cmd_args_dict={"paramsinput": params,
+                                                 "orbinfile": orbin_file,
+                                                 "input_ephemeris_file": None,
+                                                 "configfile": "sspp_testset_colours.txt",
+                                                 "outpath": "./",
+                                                 "outfilestem": "nofile_test",
+                                                 "pointing_database": pointing_database,
+                                                 "output_ephemeris_file": None,
+                                                 "ar_data_path": None,
+                                                 "loglevel": None,
+                                                 "stats": stats_out_file,
+                                                 "surveyname": survey_name,
+                                                 "seed": 42})
+
+
+    observations, stats = runLSSTSimulation(sorcha_args, config, return_only=True)
+
+    # to get how many were linked:
+    n_linked = stats.groupby("ObjID").agg(any_linked=("object_linked", "any")).values.sum()
 
     import pdb ; pdb.set_trace()
-
-    runLSSTSimulation(sorcha_args, config)
-
