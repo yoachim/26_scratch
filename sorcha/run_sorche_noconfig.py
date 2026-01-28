@@ -1,25 +1,12 @@
-import logging 
 
-from sorcha.sorcha import runLSSTSimulation, sorchaConfigs
+from sorcha.sorcha import runLSSTSimulation
 from sorcha.utilities.sorchaConfigs import (inputConfigs, simulationConfigs,
                                             filtersConfigs, saturationConfigs,
                                             phasecurvesConfigs, fovConfigs,
                                             fadingfunctionConfigs, linkingfilterConfigs,
                                             outputConfigs, lightcurveConfigs, activityConfigs,
-                                            expertConfigs, auxiliaryConfigs)
+                                            expertConfigs, auxiliaryConfigs, basesorchaConfigs)
 from sorcha.utilities.sorchaArguments import sorchaArguments
-
-
-class sorchaConfigs_nofile(sorchaConfigs):
-    """Revert to a regular dataclass so not forced to
-    read a configuration file
-    """
-    def __init__(self, **kwargs):
-        # attach the logger object so we can print things to the Sorcha logs
-        self.pplogger = logging.getLogger(__name__)
-
-        for key, val in kwargs.items():
-            setattr(self, key, val)
 
 
 if __name__ == "__main__":
@@ -97,21 +84,21 @@ if __name__ == "__main__":
 
     aux_config = auxiliaryConfigs()
 
-    config = sorchaConfigs_nofile(survey_name=survey_name,
-                                  input=input_config,
-                                  simulation=simulation_config,
-                                  filters=filters_config,
-                                  saturation=saturation_config,
-                                  phasecurves=phasecurves_config,
-                                  fov=fov_config,
-                                  fadingfunction=fading_config,
-                                  linkingfilter=linking_config,
-                                  output=output_confg,
-                                  lightcurve=lightcurve_config,
-                                  activity=activity_config,
-                                  expert=expert_config,
-                                  auxiliary=aux_config,
-                                  )
+    config = basesorchaConfigs(survey_name=survey_name,
+                               input=input_config,
+                               simulation=simulation_config,
+                               filters=filters_config,
+                               saturation=saturation_config,
+                               phasecurves=phasecurves_config,
+                               fov=fov_config,
+                               fadingfunction=fading_config,
+                               linkingfilter=linking_config,
+                               output=output_confg,
+                               lightcurve=lightcurve_config,
+                               activity=activity_config,
+                               expert=expert_config,
+                               auxiliary=aux_config,
+                                 )
 
     sorcha_args = sorchaArguments(cmd_args_dict={"paramsinput": params,
                                                  "orbinfile": orbin_file,
