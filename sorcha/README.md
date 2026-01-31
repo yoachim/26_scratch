@@ -55,4 +55,38 @@ time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits
 
 wow, only shaved a minute off. That's pretty wild.
 
+-----
+
+let's time test movingObjects
+
+with pre-computed orbits:
+
+time make_lsst_obs --simulation_db baseline_v5.1.2_10yrs.db --orbit_file /Users/yoachim/rubin_sim_data/orbits/granvik_5k.txt --positions_file /Users/yoachim/rubin_sim_data/orbits_precompute/granvik_5k.npz
+
+17:40.86 total
+
+
+w/o pre-computed positions
+time make_lsst_obs --simulation_db baseline_v5.1.2_10yrs.db --orbit_file /Users/yoachim/rubin_sim_data/orbits/granvik_5k.txt
+
+58:00.23 total
+
+
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y -f 
+
+21:10.28 total
+
+
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y -f --er gran_10_eph.h5
+
+21:12.18 total
+generates 910871 observations, compared to 1504084 in the moving objects.
+
+----
+running again with H=0, and simple objID
+
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y 
+
+20:56.84 total. But didn't output? 
+
 
