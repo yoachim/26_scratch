@@ -89,4 +89,18 @@ time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits
 
 20:56.84 total. But didn't output? 
 
+ok, going back to H=12 gets me 910955
+
+so probably something with the seed going on as well. 
+
+What happens if we go H=5?
+
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y_b
+
+no output.
+
+ok, so let's try H=15. 
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y_b
+
+ok, that got me a file. And much bigger.
 
