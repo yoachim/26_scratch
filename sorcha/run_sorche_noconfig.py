@@ -45,8 +45,8 @@ if __name__ == "__main__":
                                     mainfilter=None,
                                     othercolours=None)
 
-    saturation_config = saturationConfigs(bright_limit_on=True,
-                                          bright_limit=16.0,
+    saturation_config = saturationConfigs(bright_limit_on=False,
+                                          bright_limit=None,
                                           _observing_filters=observing_filters)
 
     phasecurves_config = phasecurvesConfigs(phase_function="HG")

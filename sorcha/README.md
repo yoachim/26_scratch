@@ -102,5 +102,55 @@ no output.
 ok, so let's try H=15. 
 time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y_b
 
-ok, that got me a file. And much bigger.
+that got me a file. And much bigger.
+
+
+ok, so let's try H=20. 
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y_c
+
+
+----
+
+I guess let's try a single input file that has the same object at different brightnesses?
+
+sorcha run -c sorcha_config_demo_read.ini -p one_orbit_colours.txt --orbits one_orbit.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t one_orbit_10y
+
+
+---
+
+ah, needed band as filter in the sql query 
+
+
+h=12
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y_h12
+
+ 21:04.47 total
+
+
+h=5
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y_h5
+no output!?!?!
+
+---
+
+ok, let's run the demo
+sorcha run -c sorcha_config_demo.ini -p sspp_testset_colours.txt --orbits sspp_testset_orbits.des --pointing-db baseline_v2.0_1yr.db -o ./ -t testrun_e2e_default
+
+sorcha run -c sorcha_config_demo.ini -p sspp_bright_colours.txt --orbits sspp_testset_orbits.des --pointing-db baseline_v2.0_1yr.db -o ./ -t testrun_e2e_bright
+
+sorcha run -c sorcha_config_demo.ini -p sspp_faint_colours.txt --orbits sspp_testset_orbits.des --pointing-db baseline_v2.0_1yr.db -o ./ -t testrun_e2e_faint
+
+sorcha run -c sorcha_config_demo.ini -p sspp_vfaint_colours.txt --orbits sspp_testset_orbits.des --pointing-db baseline_v2.0_1yr.db -o ./ -t testrun_e2e_vfaint
+
+
+----
+
+ahhh, they must be clipping on bright as well as faint. Yes, need to turn off saturation limit.
+
+now with no saturation
+h=5
+time sorcha run -c sorcha_config_demo_read.ini -p granvik_5k_params.txt --orbits granvik_5k.des --pointing-db baseline_v5.1.2_10yrs.db -o ./ -t gran_10y_h5
+21:17.83 total
+
+
 
