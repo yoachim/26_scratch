@@ -1,0 +1,34 @@
+# From https://planet4589.org/space/con/conlist.html
+# Constellation   State   Layer   SubShell    LayerName   Altitude    Inclination     No of planes    Sats per plane  Sats on stn     Sats on stn     Sats off stn    Sats down   Total Sats launched Total Sats Planned  First Launch    Last Launch
+ #                    km  deg     (planned)   (planned)   in SubShell     in Layer    for Layer   from Layer  for Layer   in Layer        
+
+SXODC   US  1   0   LEO-A Shell 1 (30 deg)  400     30.0    505     30  0   0   0   0   0   15165
+SXODC   US  2   0   LEO-A Shell 2 (30 deg)  450     30.0    505     30  0   0   0   0   0   15165
+SXODC   US  3   0   LEO-A Shell 3 (30 deg)  500     30.0    505     30  0   0   0   0   0   15165
+SXODC   US  4   0   LEO-A Shell 4 (30 deg)  550     30.0    505     30  0   0   0   0   0   15165
+SXODC   US  5   0   LEO-A Shell 5 (30 deg)  600     30.0    505     30  0   0   0   0   0   15165
+SXODC   US  6   0   LEO-A Shell 6 (30 deg)  900     30.0    505     30  0   0   0   0   0   15165
+SXODC   US  7   0   LEO-A Shell 7 (30 deg)  950     30.0    505     30  0   0   0   0   0   15165
+SXODC   US  8   0   LEO-A Shell 8 (30 deg)  1000    30.0    505     30  0   0   0   0   0   15165
+SXODC   US  9   0   LEO-A Shell 9 (30 deg)  1050    30.0    505     30  0   0   0   0   0   15165
+SXODC   US  10  0   LEO-A Shell 10 (30 deg)     1100    30.0    505     30  0   0   0   0   0   15165
+SXODC   US  11  0   LEO-A Shell 11 (30 deg)     1900    30.0    505     30  0   0   0   0   0   15170
+SXODC   US  12  0   LEO-A Shell 12 (30 deg)     1950    30.0    505     30  0   0   0   0   0   15170
+SXODC   US  13  0   LEO-A Shell 13 (30 deg)     2000    30.0    505     30  0   0   0   0   0   15170
+SXODC   US  14  0   LEO-A Shell 14 (30 deg)     2050    30.0    505     30  0   0   0   0   0   15170
+SXODC   US  15  0   LEO-A Shell 15 (30 deg)     2100    30.0    505     30  0   0   0   0   0   15170
+SXODC   US  16  0   SSO Shell 16 (97 deg)   400     97.4    1716    30  0   0   0   0   0   51500
+SXODC   US  17  0   SSO Shell 17 (97 deg)   450     97.4    1716    30  0   0   0   0   0   51500
+SXODC   US  18  0   SSO Shell 18 (97 deg)   500     97.4    1716    30  0   0   0   0   0   51500
+SXODC   US  19  0   SSO Shell 19 (97 deg)   550     97.4    1716    30  0   0   0   0   0   51500
+SXODC   US  20  0   SSO Shell 20 (97 deg)   600     97.4    1716    30  0   0   0   0   0   51500
+SXODC   US  21  0   SSO Shell 21 (99 deg)   900     99.5    1716    30  0   0   0   0   0   51500
+SXODC   US  22  0   SSO Shell 22 (99 deg)   950     99.5    1716    30  0   0   0   0   0   51500
+SXODC   US  23  0   SSO Shell 23 (99 deg)   1000    99.5    1716    30  0   0   0   0   0   51500
+SXODC   US  24  0   SSO Shell 24 (99 deg)   1050    99.5    1716    30  0   0   0   0   0   51500
+SXODC   US  25  0   SSO Shell 25 (99 deg)   1100    99.5    1716    30  0   0   0   0   0   51500
+SXODC   US  26  0   SSO Shell 26 (104 deg)  1900    104.9   1716    30  0   0   0   0   0   51500
+SXODC   US  27  0   SSO Shell 27 (104 deg)  1950    104.9   1716    30  0   0   0   0   0   51500
+SXODC   US  28  0   SSO Shell 28 (104 deg)  2000    104.9   1716    30  0   0   0   0   0   51500
+SXODC   US  29  0   SSO Shell 29 (104 deg)  2050    104.9   1716    30  0   0   0   0   0   51500
+SXODC   US  30  0   SSO Shell 30 (104 deg)  2100    104.9   1716    30  0   0   0   0   0   51500
