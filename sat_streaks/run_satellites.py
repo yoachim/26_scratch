@@ -9,14 +9,21 @@ from rubin_sim.satellite_constellations import Constellation, create_constellati
 from rubin_scheduler.utils import SURVEY_START_MJD
 
 
-def read_sats(filename="sats.dat", epoch=23274.0):
+def read_sats(filename="sats.dat", epoch=23274.0, scale_down=5):
+    """
+
+    Parameters
+    ----------
+    scale_down : int
+        Factor to scale down the Sats_per_plane value.
+    """
 
     planned = pd.read_csv(filename, comment="#", sep="\\s+")
     tles = create_constellation(
         planned["Altitude"].values * u.km,
         planned["Inclination"].values * u.deg,
         planned["No_of_planes"].values,
-        planned["Sats_per_plane"].values,
+        (planned["Sats_per_plane"].values/scale_down).astype(int),
         epoch=epoch,
         name="mega",
         seed=42,
@@ -29,9 +36,12 @@ if __name__ == "__main__":
     epoch = SURVEY_START_MJD
     parser = argparse.ArgumentParser()
     parser.add_argument("--night", type=int, default=0)
+    parser.add_argument("--scale", type=int, default=5)
+
     args = parser.parse_args()
 
     night = args.night
+    scale = args.scale
 
     baseline_file = get_baseline()
     conn = sqlite3.connect(baseline_file)
@@ -42,7 +52,7 @@ if __name__ == "__main__":
     visits = pd.read_sql(query, conn)
     conn.close()
 
-    tles = read_sats(epoch=epoch)
+    tles = read_sats(epoch=epoch, scale_down=scale)
     constellation = Constellation(tles)
 
     lengths_deg, n_streaks = constellation.check_pointings(
@@ -57,4 +67,5 @@ if __name__ == "__main__":
         lengths_deg=lengths_deg,
         n_streaks=n_streaks,
         mjd=visits["observationStartMJD"].values,
+        scale=scale
     )

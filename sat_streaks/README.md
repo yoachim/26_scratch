@@ -5,3 +5,4 @@ so about 2 hr/night/core
 
 
 
+100 visits, with sats per plane scaled down by 5 takes 2:36
