@@ -141,7 +141,7 @@ if __name__ == "__main__":
                     "paramsinput": params,
                     "orbinfile": orbit_file,
                     "input_ephemeris_file": None,
-                    "configfile": "empty_config.txt",
+                    "configfile": None,
                     "outpath": "./",
                     "outfilestem": out_stem,
                     "pointing_database": pointing_database,
