@@ -36,7 +36,7 @@ if __name__ == "__main__":
     baseline_file = get_baseline()
     conn = sqlite3.connect(baseline_file)
     query = (
-        "select fieldRA, fieldDec, observationStartMJD, visitTimefrom observations where night = %i;"
+        "select fieldRA, fieldDec, observationStartMJD, visitTime from observations where night = %i;"
         % night
     )
     visits = pd.read_sql(query, conn)

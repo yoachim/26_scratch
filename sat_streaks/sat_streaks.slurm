@@ -3,7 +3,7 @@
 #SBATCH --account=rubin:developers      # Account name
 #SBATCH --partition=milano
 #
-#SBATCH --job-name=baseline5.1
+#SBATCH --job-name=sat_streaks
 #SBATCH --output=output-%j.txt
 #SBATCH --error=output-%j.txt
 #
