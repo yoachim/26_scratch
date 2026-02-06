@@ -7,12 +7,12 @@
 #SBATCH --output=output-%j.txt
 #SBATCH --error=output-%j.txt
 #
-#SBATCH --nodes=1                       # Number of nodes
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=20
+#SBATCH --nodes=2                       # Number of nodes
+#SBATCH --ntasks=20
+#SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=8g
 #
-#SBATCH --time=2-14:10:00
+#SBATCH --time=5-14:10:00
 #SBATCH --chdir=/sdf/data/rubin/shared/fbs_sims/26_scratch/sat_streaks
 #SBATCH --mail-user=yoachim@uw.edu
 #
