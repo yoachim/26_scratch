@@ -52,20 +52,26 @@ if __name__ == "__main__":
     visits = pd.read_sql(query, conn)
     conn.close()
 
-    tles = read_sats(epoch=epoch, scale_down=scale)
-    constellation = Constellation(tles)
+    if len(visits) > 0:
+        tles = read_sats(epoch=epoch, scale_down=scale)
+        constellation = Constellation(tles)
 
-    lengths_deg, n_streaks = constellation.check_pointings(
-        visits["fieldRA"].values,
-        visits["fieldDec"].values,
-        visits["observationStartMJD"].values,
-        visits["visitTime"].values,
-    )
+        lengths_deg, n_streaks = constellation.check_pointings(
+            visits["fieldRA"].values,
+            visits["fieldDec"].values,
+            visits["observationStartMJD"].values,
+            visits["visitTime"].values,
+        )
+        mjd = visits["observationStartMJD"].values
+    else:
+        lengths_deg = None
+        n_streaks = None
+        mjd = None
 
     np.savez(
         "sat_streak_results_%i.npz" % night,
         lengths_deg=lengths_deg,
         n_streaks=n_streaks,
-        mjd=visits["observationStartMJD"].values,
+        mjd=mjd,
         scale=scale
     )
