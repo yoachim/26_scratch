@@ -12,5 +12,5 @@ if __name__ == "__main__":
             nights_needed.append(i)
 
     for night in nights_needed:
-        print("python run_satellites.py --night %night" % night)
+        print("python run_satellites.py --night %i" % night)
 
