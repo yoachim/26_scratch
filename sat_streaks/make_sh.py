@@ -12,5 +12,5 @@ if __name__ == "__main__":
             nights_needed.append(i)
 
     for night in nights_needed:
-        print("sat_streak_results_%i.npz" % night)
+        print("python run_satellites.py --night %night" % night)
 
