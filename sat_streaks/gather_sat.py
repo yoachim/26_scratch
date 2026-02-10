@@ -21,13 +21,14 @@ if __name__ == "__main__":
 
     for filename in save_files:
         _temp = np.load(filename, allow_pickle=True)
-        if _temp["n_streaks"] is not None:
+        if not None in _temp["n_streaks"] :
             lengths.append(_temp["lengths_deg"].copy())
             streaks.append(_temp["n_streaks"].copy())
             mjds.append(_temp["mjd"])
             scale = _temp["scale"]
 
-    lengths = np.concatenate(lengths)
+
+    lengths = np.concatenate(lengths, axis=0)
     streaks = np.concatenate(streaks)
     mjds = np.concatenate(mjds)
 
