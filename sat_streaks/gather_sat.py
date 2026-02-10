@@ -12,6 +12,7 @@ if __name__ == "__main__":
     baseline_file = get_baseline()
     conn = sqlite3.connect(baseline_file)
     query = ("select * from observations where night < 365;")
+    info = pd.read_sql("select * from info;", conn)
     visits = pd.read_sql(query, conn)
     conn.close()
 
@@ -46,12 +47,11 @@ if __name__ == "__main__":
     visits["streak_lengths"] = lengths
     visits["n_streaks"] = streaks
 
-    outfile = "baseline_w_streaks_scale%i.sql" % scale
+    outfile = "baseline_w_streaks_scale%i.sqlite" % scale
 
     con = sqlite3.connect(outfile)
     visits.to_sql("observations", con)
     # If I was good I'd port over the info table too.
-    info = pd.read_sql("select * from info;", con)
     info.to_sql("info", con)
     con.close()
 

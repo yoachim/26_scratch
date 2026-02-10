@@ -33,7 +33,6 @@ def read_sats(filename="sats.dat", epoch=23274.0, scale_down=5):
 
 if __name__ == "__main__":
 
-    epoch = SURVEY_START_MJD
     parser = argparse.ArgumentParser()
     parser.add_argument("--night", type=int, default=0)
     parser.add_argument("--scale", type=int, default=5)
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     conn.close()
 
     if len(visits) > 0:
-        tles = read_sats(epoch=epoch, scale_down=scale)
+        tles = read_sats(scale_down=scale)
         constellation = Constellation(tles)
 
         lengths_deg, n_streaks = constellation.check_pointings(
