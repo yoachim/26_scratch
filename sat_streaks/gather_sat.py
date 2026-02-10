@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     baseline_file = get_baseline()
     conn = sqlite3.connect(baseline_file)
-    query = ("select * from observations;")
+    query = ("select * from observations where night < 365;")
     visits = pd.read_sql(query, conn)
     conn.close()
 
