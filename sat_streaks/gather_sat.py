@@ -20,7 +20,7 @@ if __name__ == "__main__":
     mjds = []
 
     for filename in save_files:
-        _temp = np.load(filename)
+        _temp = np.load(filename, allow_pickle=True)
         if _temp["n_streaks"] is not None:
             lengths.append(_temp["lengths"].copy())
             streaks.append(_temp["n_streaks"].copy())
