@@ -22,9 +22,10 @@ if __name__ == "__main__":
     for filename in save_files:
         _temp = np.load(filename, allow_pickle=True)
         if _temp["n_streaks"] is not None:
-            lengths.append(_temp["lengths"].copy())
+            lengths.append(_temp["lengths_deg"].copy())
             streaks.append(_temp["n_streaks"].copy())
             mjds.append(_temp["mjd"])
+            scale = _temp["scale"]
 
     lengths = np.concatenate(lengths)
     streaks = np.concatenate(streaks)
@@ -44,7 +45,7 @@ if __name__ == "__main__":
     visits["streak_lengths"] = lengths
     visits["n_streaks"] = streaks
 
-    outfile = "baseline_w_streaks.sql"
+    outfile = "baseline_w_streaks_scale%i.sql" % scale
 
     con = sqlite3.connect(outfile)
     visits.to_sql("observations", con)
