@@ -7,8 +7,8 @@
 #SBATCH --output=output-%j.txt
 #SBATCH --error=output-%j.txt
 #
-#SBATCH --nodes=3                       # Number of nodes
-#SBATCH --ntasks=40
+#SBATCH --nodes=1                       # Number of nodes
+#SBATCH --ntasks=20
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=8g
 #
@@ -25,4 +25,4 @@ source ~/anaconda3/etc/profile.d/conda.sh
 conda activate rubin13
 export OPENBLAS_NUM_THREADS=1
 
-cat sats2.sh | parallel -j 40
+cat sats2.sh | parallel -j 20
