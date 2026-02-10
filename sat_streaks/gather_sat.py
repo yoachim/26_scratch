@@ -1,0 +1,55 @@
+import numpy as np
+import glob
+from rubin_sim.data import get_baseline
+import sqlite3
+import pandas as pd
+
+
+if __name__ == "__main__":
+
+    save_files = glob.glob("*.npz")
+
+    baseline_file = get_baseline()
+    conn = sqlite3.connect(baseline_file)
+    query = ("select * from observations;")
+    visits = pd.read_sql(query, conn)
+    conn.close()
+
+    lengths = []
+    streaks = []
+    mjds = []
+
+    for filename in save_files:
+        _temp = np.load(filename)
+        if _temp["n_streaks"] is not None:
+            lengths.append(_temp["lengths"].copy())
+            streaks.append(_temp["n_streaks"].copy())
+            mjds.append(_temp["mjd"])
+
+    lengths = np.concatenate(lengths)
+    streaks = np.concatenate(streaks)
+    mjds = np.concatenate(mjds)
+
+    mjd_order = np.argsort(mjds)
+
+    lengths = lengths[mjd_order]
+    streaks = streaks[mjd_order]
+    mjds = mjds[mjd_order]
+
+    diff = visits["observationStartMJD"] - mjds
+
+    if np.max(np.abs(diff)) > 1e-6:
+        raise ValueError("MJDs do not match")
+
+    visits["streak_lengths"] = lengths
+    visits["n_streaks"] = streaks
+
+    outfile = "baseline_w_streaks.sql"
+
+    con = sqlite3.connect(outfile)
+    visits.to_sql("observations", con)
+    # If I was good I'd port over the info table too.
+    info = pd.read_sql("select * from info;", con)
+    info.to_sql("info", con)
+    con.close()
+
