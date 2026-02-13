@@ -17,6 +17,7 @@ from sorcha.utilities.sorchaConfigs import (
     basesorchaConfigs,
 )
 from sorcha.utilities.sorchaArguments import sorchaArguments
+import datetime
 
 
 def make_sorcha_config(
@@ -119,43 +120,48 @@ if __name__ == "__main__":
     pointing_database = "baseline_v5.1.2_10yrs.db"
 
     orbit_files = glob.glob("*_kep.csv")
-    orbit_files.sort()
+    orbit_files.sort()[::-1]
+
+    # XXX --mask out the slow one
+    orbit_files = [filename for filename in orbit_files if "occ_rmax5_5k" not in filename]
 
     survey_name = "rubin_sim"
 
     sim_name = "baseline_v5.1.2_10yrs"
 
-    for orbit_file in orbit_files[5:]:
-        if "occ_rmax5" not in orbit_file:
-            print("starting ", orbit_file)
-            params = orbit_file.replace("kep", "param")
-            out_stem = sim_name + "_" + orbit_file.replace("kep", "").replace(".csv", "")
-            stats_out_file = out_stem + "stats"
+    for orbit_file in orbit_files:
+        start_time = datetime.datetime.now()
+        print("starting ", orbit_file, start_time)
+        params = orbit_file.replace("kep", "param")
+        out_stem = sim_name + "_" + orbit_file.replace("kep", "").replace(".csv", "")
+        stats_out_file = out_stem + "stats"
 
-            config = make_sorcha_config(pointing_database, orbit_file,
-                                        params, stats_out_file,
-                                        survey_name=survey_name)
+        config = make_sorcha_config(pointing_database, orbit_file,
+                                    params, stats_out_file,
+                                    survey_name=survey_name)
 
-            sorcha_args = sorchaArguments(
-                cmd_args_dict={
-                    "paramsinput": params,
-                    "orbinfile": orbit_file,
-                    "input_ephemeris_file": None,
-                    "configfile": None,
-                    "outpath": "./",
-                    "outfilestem": out_stem,
-                    "pointing_database": pointing_database,
-                    "output_ephemeris_file": None,
-                    "ar_data_path": None,
-                    "loglevel": None,
-                    "stats": stats_out_file,
-                    "surveyname": survey_name,
-                    "seed": 42,
-                }
-            )
+        sorcha_args = sorchaArguments(
+            cmd_args_dict={
+                "paramsinput": params,
+                "orbinfile": orbit_file,
+                "input_ephemeris_file": None,
+                "configfile": None,
+                "outpath": "./",
+                "outfilestem": out_stem,
+                "pointing_database": pointing_database,
+                "output_ephemeris_file": None,
+                "ar_data_path": None,
+                "loglevel": None,
+                "stats": stats_out_file,
+                "surveyname": survey_name,
+                "seed": 42,
+            }
+        )
 
-            runLSSTSimulation(sorcha_args, config, return_only=False)
-            print("ran %s, %s" % (pointing_database, orbit_file))
+        runLSSTSimulation(sorcha_args, config, return_only=False)
+        end_time = datetime.datetime.now()
+        diff = end_time - start_time
+        print("ran %s, %s in %.1f minutes" % (pointing_database, orbit_file, diff.seconds/60.))
 
         # observations, stats = runLSSTSimulation(sorcha_args, config, return_only=True)
 

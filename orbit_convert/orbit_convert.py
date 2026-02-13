@@ -3,7 +3,7 @@ import os
 from rubin_scheduler.data import get_data_dir
 from sbpy.data import Orbit
 from rubin_sim.moving_objects import Orbits
-from astropy.table import Table
+from astropy.table import Table, hstack
 import astropy.units as u
 from astropy.time import Time
 import numpy as np
@@ -126,6 +126,12 @@ if __name__ == "__main__":
 
         orbit_kep = orbit.oo_transform('KEP') 
 
+        # Catch if openOrb failed silently!
+        a_failed_indx = np.where(orbit_kep["a"] == 0)[0]
+        if np.size(a_failed_indx) > 0:
+            for indx in np.arange(len(orbit_kep)):
+                orbit_kep._table[indx] = orbit[indx].oo_transform('KEP')._table[0]
+
         outfilename = os.path.basename(filename).split(".")[0] + '_kep.csv'
         # orbit_kep.to_file(outfilename, format="ascii.csv", overwrite=True)
         sorcha_style = pd.DataFrame()
@@ -141,10 +147,11 @@ if __name__ == "__main__":
 
         ack = np.where(sorcha_style["e"] >= 1)[0]
 
-        # Going to fudge the one wacky orbit that has e > 1
+        # Going to fudge one wacky orbits that have e > 1
         if len(ack) > 0:
-            sorcha_style.loc[ack[0], "e"] = .9999
-            sorcha_style.loc[ack[0], "ma"] = 359.
+            for indx in ack:
+                sorcha_style.loc[indx, "e"] = .9999
+                sorcha_style.loc[indx, "ma"] = 359.
 
         sorcha_style.to_csv(outfilename, index=False, sep=" ")
 
