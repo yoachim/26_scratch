@@ -146,12 +146,16 @@ if __name__ == "__main__":
         sorcha_style["FORMAT"] = "KEP"
 
         ack = np.where(sorcha_style["e"] >= 1)[0]
+        good_orbits = np.where(sorcha_style["e"] < 1)[0]
 
-        # Going to fudge one wacky orbits that have e > 1
+        # Going to fudge wacky orbits that have e > 1
         if len(ack) > 0:
-            for indx in ack:
-                sorcha_style.loc[indx, "e"] = .9999
-                sorcha_style.loc[indx, "ma"] = 359.
+            if len(ack) > 1:
+                sorcha_style = sorcha_style.iloc[good_orbits]
+            else:
+                for indx in ack:
+                    sorcha_style.loc[indx, "e"] = .9999
+                    sorcha_style.loc[indx, "ma"] = 359.
 
         sorcha_style.to_csv(outfilename, index=False, sep=" ")
 
@@ -181,6 +185,8 @@ if __name__ == "__main__":
             params.loc[indx, "i-r"] = colors["i-r"]
             params.loc[indx, "z-r"] = colors["z-r"]
             params.loc[indx, "y-r"] = colors["y-r"]
+
+        params = params.iloc[good_orbits]
 
         params.to_csv(os.path.basename(filename).split(".")[0] + '_param.csv', index=False, sep=" ")
 

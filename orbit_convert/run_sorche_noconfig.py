@@ -120,10 +120,10 @@ if __name__ == "__main__":
     pointing_database = "baseline_v5.1.2_10yrs.db"
 
     orbit_files = glob.glob("*_kep.csv")
-    orbit_files.sort()[::-1]
+    orbit_files.sort()
 
-    # XXX --mask out the slow one
-    orbit_files = [filename for filename in orbit_files if "occ_rmax5_5k" not in filename]
+    # XXX
+    orbit_files = [filename for filename in orbit_files if "vatiras" in filename]
 
     survey_name = "rubin_sim"
 
@@ -133,8 +133,8 @@ if __name__ == "__main__":
         start_time = datetime.datetime.now()
         print("starting ", orbit_file, start_time)
         params = orbit_file.replace("kep", "param")
-        out_stem = sim_name + "_" + orbit_file.replace("kep", "").replace(".csv", "")
-        stats_out_file = out_stem + "stats"
+        out_stem = sim_name + "_" + orbit_file.replace("_kep", "").replace(".csv", "")
+        stats_out_file = out_stem + "_stats"
 
         config = make_sorcha_config(pointing_database, orbit_file,
                                     params, stats_out_file,
@@ -149,10 +149,10 @@ if __name__ == "__main__":
                 "outpath": "./",
                 "outfilestem": out_stem,
                 "pointing_database": pointing_database,
-                "output_ephemeris_file": None,
+                "output_ephemeris_file": "vatiras_ephem",
                 "ar_data_path": None,
                 "loglevel": None,
-                "stats": stats_out_file,
+                "stats": None, # XXX stats_out_file,
                 "surveyname": survey_name,
                 "seed": 42,
             }
