@@ -66,7 +66,8 @@ def sorcha_wrapper(pointing_database, orbin_file,
                                           ssp_maximum_time=0.0625,
                                           ssp_number_tracklets=3,
                                           ssp_track_window=15,
-                                          ssp_night_start_utc=16.0)
+                                          ssp_night_start_utc=16.0,
+                                          survey_name=survey_name,)
     output_confg = outputConfigs(output_format="csv",
                                  output_columns="basic",
                                  position_decimals=None,
