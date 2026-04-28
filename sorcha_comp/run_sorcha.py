@@ -1,6 +1,7 @@
 import rubin_sim.splat as splat
 from rubin_sim.data import get_data_dir
 import glob
+import os
 
 if __name__ == "__main__":
 
@@ -16,7 +17,7 @@ if __name__ == "__main__":
             baseline_file, of, cf
         )
 
-        outfile = of.replace("_kep.csv", "")
+        outfile = os.path.basename(of).replace("_kep.csv", "")
 
         observations.to_csv("sorcha_obs_" + outfile + ".csv")
         stats.to_csv("sorcha_stats_" + outfile + ".csv")
